@@ -20,25 +20,25 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
         
     # 3. 安装依赖
     - name: 安装依赖
       run: npm install
       
-    # 4. 运行签到脚本（这里使用 GitHub Secrets）
+    # 4. 运行签到脚本
     - name: 运行签到脚本
       env:
         WEBSITE_USERNAME: ${{ secrets.WEBSITE_USERNAME }}
         WEBSITE_PASSWORD: ${{ secrets.WEBSITE_PASSWORD }}
       run: node checkin.js
       
-    # 5. 上传结果截图
-    - name: 上传签到结果截图
+    # 5. 上传所有结果文件
+    - name: 上传签到结果
       uses: actions/upload-artifact@v4
       with:
         name: checkin-result
         path: |
-          result.png
-          error.png
+          *.png
+          *.txt
+          *.html
         retention-days: 7
