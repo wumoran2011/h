@@ -1,0 +1,12 @@
+{
+  "name": "auto-checkin",
+  "version": "1.0.0",
+  "description": "自动签到脚本",
+  "main": "checkin.js",
+  "scripts": {
+    "start": "node checkin.js"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0"
+  }
+}
