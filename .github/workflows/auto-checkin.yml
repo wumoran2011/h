@@ -2,47 +2,39 @@ name: 自动签到
 
 on:
   schedule:
-    # 每天北京时间早上9点运行 (UTC时间凌晨1点)
     - cron: '0 1 * * *'
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   checkin:
     runs-on: ubuntu-latest
     
     steps:
-    # 1. 获取代码
     - name: 获取代码
       uses: actions/checkout@v4
       
-    # 2. 设置 Node.js 环境
     - name: 设置Node.js环境
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         
-    # 3. 清理缓存并重新安装依赖
     - name: 清理并安装依赖
       run: |
         rm -rf node_modules
         rm -f package-lock.json
         npm install
         
-    # 4. 运行签到脚本
     - name: 运行签到脚本
       env:
         WEBSITE_USERNAME: ${{ secrets.WEBSITE_USERNAME }}
         WEBSITE_PASSWORD: ${{ secrets.WEBSITE_PASSWORD }}
       run: node checkin.js
       
-    # 5. 上传所有结果文件
-    - name: 上传签到结果
+    - name: 上传结果
       uses: actions/upload-artifact@v4
       with:
         name: checkin-result
         path: |
           *.png
           *.txt
-          *.html
-          *.json
         retention-days: 7
